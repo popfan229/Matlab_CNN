@@ -53,12 +53,14 @@ v_T_Ft(location+1) = [];                    % remove掉错误起始点
 %% ---- cut plus wave
 for i=1:length(v_T_Ft)-2
     plusWave(i,:) =  soundIn(v_T_Ft(i+1)-800:v_T_Ft(i+1)+1199)';   %第一个波不要
-    subplot(2,1,1);audioSpecImage( plusWave(i,:),2000,128, 112);
-    subplot(2,1,2);spectrogram(plusWave(i,:),hamming(128),112,256,2000,'yaxis');
+%     subplot(2,1,1);audioSpecImage( plusWave(i,:),2000,128, 112);   %audioSpecImage( pluswave,sampleRate, widthFrame, overlap )
+%     subplot(2,1,2);plot(plusWave(i,:));
+    %     subplot(2,1,2);spectrogram(plusWave(i,:),hamming(128),112,256,2000,'yaxis');   
     i
 end
-
-
+imageT = audioSpecImage( plusWave(22,:),2000,128, 112); %怎么实现imagesc的数据缩放
+imshow(imageT);
+imwrite(imageT,'1.bmp');
 
 % ----- End
 %% ---- lable BP value on plus wave

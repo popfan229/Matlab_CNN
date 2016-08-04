@@ -22,11 +22,12 @@ end
 tt=[0:h:(s-n)]/sampleRate;
 ff=[0:(n/2)]*sampleRate/n;
 imagesc(tt,ff/1000,20*log10(abs(d))); 
-% colormap('default');               %黑白度对应于信号的能量，声道的谐振频率在图上就表示成为黑带，浊音部分则以出现条纹为其特征，这是因为时域波形有周期性，而浊音的时间间隔内图形显得很致密
-colormap(gray);
+colormap('default');               %黑白度对应于信号的能量，声道的谐振频率在图上就表示成为黑带，浊音部分则以出现条纹为其特征，这是因为时域波形有周期性，而浊音的时间间隔内图形显得很致密
+% colormap(gray);
 axis xy;
-% xlabel('时间/s');
-% ylabel('频率/kHz')     
+output_args = 20*log10(abs(d));
+xlabel('时间/s');
+ylabel('频率/kHz')     
 
 end
 
