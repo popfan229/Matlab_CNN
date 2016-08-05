@@ -55,12 +55,24 @@ for i=1:length(v_T_Ft)-2
     plusWave(i,:) =  soundIn(v_T_Ft(i+1)-800:v_T_Ft(i+1)+1199)';   %第一个波不要
 %     subplot(2,1,1);audioSpecImage( plusWave(i,:),2000,128, 112);   %audioSpecImage( pluswave,sampleRate, widthFrame, overlap )
 %     subplot(2,1,2);plot(plusWave(i,:));
-    %     subplot(2,1,2);spectrogram(plusWave(i,:),hamming(128),112,256,2000,'yaxis');   
+    %     subplot(2,1,2);spectrogram(plusWave(i,:),hamming(128),112,256,2000,'yaxis'); 
+%     figure(1)
+%     imageT = audioSpecImage( plusWave(i,:),2000,128, 112); %怎么实现imagesc的数据缩放
+%     maxV = max(max(imageT));minV = min(min(imageT));
+%     imageTr = uint8(round(((imageT-minV)./(maxV-minV))*255));
+%     figure(2)
+%     imshow(imageTr);
+%     imwrite(imageTr,'1.bmp');
+   
     i
 end
-imageT = audioSpecImage( plusWave(22,:),2000,128, 112); %怎么实现imagesc的数据缩放
-imshow(imageT);
-imwrite(imageT,'1.bmp');
+
+    figure(1)
+    imageT = audioSpecImage( plusWave(i,:),2000,128, 112); %怎么实现imagesc的数据缩放
+    maxV = max(max(imageT));minV = min(min(imageT));
+    imageGray = uint8(round(((imageT-minV)./(maxV-minV))*255));
+    figure(2)
+    imshow(imageGray);
 
 % ----- End
 %% ---- lable BP value on plus wave
