@@ -14,7 +14,7 @@ close all
 clc
 %% ----- Load data
 % filePath = '001\1_R1.CSV';  % office
-filePath = '..\RawData\001\1_R1.CSV';  % home
+filePath = '..\..\RawData\001\1_R1.CSV';  % home
 data = csvread(filePath);
 % BPvalue = xlsread('TrueDataAll.xls');
         
@@ -53,6 +53,12 @@ v_T_Ft(location+1) = [];                    % remove掉错误起始点
 %% ---- cut plus wave
 for i=1:length(v_T_Ft)-2
     plusWave(i,:) =  soundIn(v_T_Ft(i+1)-800:v_T_Ft(i+1)+1199)';   %第一个波不要
+    imageT = audioSpecImage( plusWave(i,:),2000,128, 112, 1); %怎么实现imagesc的数据缩放
+    maxV = max(max(imageT));minV = min(min(imageT));
+    imageGray = uint8(round(((imageT-minV)./(maxV-minV))*255));
+    imageGray = flipud(imageGray);
+    imwrite(imageGray,['..\pluseImage\' num2str(i) '.bmp']);
+%     imshow(imageGray);
 %     subplot(2,1,1);audioSpecImage( plusWave(i,:),2000,128, 112);   %audioSpecImage( pluswave,sampleRate, widthFrame, overlap )
 %     subplot(2,1,2);plot(plusWave(i,:));
     %     subplot(2,1,2);spectrogram(plusWave(i,:),hamming(128),112,256,2000,'yaxis'); 
@@ -63,17 +69,7 @@ for i=1:length(v_T_Ft)-2
 %     figure(2)
 %     imshow(imageTr);
 %     imwrite(imageTr,'1.bmp');
-   
-    i
 end
-
-    figure(1)
-    imageT = audioSpecImage( plusWave(i,:),2000,128, 112); %怎么实现imagesc的数据缩放
-    maxV = max(max(imageT));minV = min(min(imageT));
-    imageGray = uint8(round(((imageT-minV)./(maxV-minV))*255));
-    figure(2)
-    imshow(imageGray);
-
 % ----- End
 %% ---- lable BP value on plus wave
 repNum = str2num(filePath(8));

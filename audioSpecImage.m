@@ -1,4 +1,4 @@
-function [ output_args ] = audioSpecImage( pluswave,sampleRate, widthFrame, overlap )
+function [ output_args ] = audioSpecImage( pluswave,sampleRate, widthFrame, overlap, showImage )
 % UNTITLED Summary of this function goes here
 % Detailed explanation goes here
 x = pluswave;
@@ -19,15 +19,19 @@ for b=0:h:(s-n)
     d(:,c)=t(1:(1+n/2))';
     c=c+1;
 end
-tt=[0:h:(s-n)]/sampleRate;
-ff=[0:(n/2)]*sampleRate/n;
-imagesc(tt,ff/1000,20*log10(abs(d))); 
-colormap('default');               %黑白度对应于信号的能量，声道的谐振频率在图上就表示成为黑带，浊音部分则以出现条纹为其特征，这是因为时域波形有周期性，而浊音的时间间隔内图形显得很致密
-% colormap(gray);
-axis xy;
+
 output_args = 20*log10(abs(d));
-xlabel('时间/s');
-ylabel('频率/kHz')     
+
+    if showImage==1
+        tt=[0:h:(s-n)]/sampleRate;
+        ff=[0:(n/2)]*sampleRate/n;
+        imagesc(tt,ff/1000,20*log10(abs(d))); 
+        colormap('default');               %黑白度对应于信号的能量，声道的谐振频率在图上就表示成为黑带，浊音部分则以出现条纹为其特征，这是因为时域波形有周期性，而浊音的时间间隔内图形显得很致密
+        % colormap(gray);
+        axis xy;
+        xlabel('时间/s');
+        ylabel('频率/kHz')  
+    end
 
 end
 
