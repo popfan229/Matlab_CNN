@@ -20,7 +20,8 @@ global firstKickPressure1;
 global secondKickPressure1;
 global firstKickPressure2;
 global secondKickPressure2;
-global removeSample;
+global firstLocation;
+global secondLocation;
 
 global Fs;
 global filePath;
@@ -208,11 +209,11 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         close(2);
         
         figure(2)
-        plot(t,cuffFit);
+%         plot(t,cuffFit);
         hold on
-        plot(t,cuffPressure,'r');
+%         plot(t,cuffPressure,'r');
         plot(t,soundUnderCuff+100,'k');
-        plot(t,soundOutCuff+100,'c');
+        plot(t,soundOutCuff+100,'r');
         hold off   
     end
 
@@ -250,10 +251,11 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             info = get(handleAudio1, 'CurrentSample');  %get currentSample playing
             firstKickPressure1 = cuffPressure(info); 
             set(tickFirstSBP, 'String',num2str(firstKickPressure1));
-                     
+            firstLocation = info;         
             figure(2)
             hold on
-            plot([info/Fs info/Fs],[150 40],'r');
+%             plot([info/Fs info/Fs],[150 40],'r');
+            plot([info/Fs info/Fs],[105 95],'r');
         end
         
         if kickNumber1 == 2
@@ -261,15 +263,16 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
 %             duration = timeDuration(firstStart, str);
             info = get(handleAudio1, 'CurrentSample');  %get currentSample playing
             secondKickPressure1 = cuffPressure(info); 
-            set(tickFirstDBP, 'String',num2str(secondKickPressure1));           
-            result = [firstKickPressure1,secondKickPressure1];
+            set(tickFirstDBP, 'String',num2str(secondKickPressure1));
+            secondLocation = info; 
+            result = [firstKickPressure1,secondKickPressure1, firstLocation, secondLocation];
             
             figure(2)
             hold on
-            plot([info/Fs info/Fs],[150 40],'r');
-            
+%             plot([info/Fs info/Fs],[150 40],'r');
+            plot([info/Fs info/Fs],[105 95],'r'); 
             xlswrite(['..\BPresult\' 'Result-'... 
-               [pathname(end-3) pathname(end-2) pathname(end-1)] '.xls'], result, ['C' num2str(id+2) ':D' num2str(id+2)]);
+               [pathname(end-3) pathname(end-2) pathname(end-1)] '.xls'], result, ['C' num2str(id+2) ':F' num2str(id+2)]);
         end
         
     end
@@ -282,25 +285,27 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
 %             duration = timeDuration(secondStart, str);% 
             info = get(handleAudio2, 'CurrentSample');  %get currentSample playing
             firstKickPressure2 = cuffPressure(info); 
+            firstLocation = info;
             set(tickSecondSBP, 'String',num2str(firstKickPressure2));
             figure(2)
             hold on
-            plot([info/Fs info/Fs],[150 40],'k');
+            plot([info/Fs info/Fs],[105 95],'k');
         end
         
         if kickNumber2 == 2
 %             str=datestr(now, 'HH:MM:SS:FFF');
 %             duration = timeDuration(secondStart, str);
             info = get(handleAudio2, 'CurrentSample');  %get currentSample playing
-            secondKickPressure2 = cuffPressure(info); 
+            secondKickPressure2 = cuffPressure(info);
+            secondLocation = info; 
             set(tickSecondDBP, 'String',num2str(secondKickPressure2));
-            result = [firstKickPressure2,secondKickPressure2];
+            result = [firstKickPressure2, secondKickPressure2, firstLocation, secondLocation];
             figure(2)
             hold on
-            plot([info/Fs info/Fs],[150 40],'k');
+            plot([info/Fs info/Fs],[105 95],'k');
                         
             xlswrite(['..\BPresult\' 'Result-'... 
-               [pathname(end-3) pathname(end-2) pathname(end-1)] '.xls'], result, ['E' num2str(id+2) ':F' num2str(id+2)]);            
+               [pathname(end-3) pathname(end-2) pathname(end-1)] '.xls'], result, ['G' num2str(id+2) ':J' num2str(id+2)]);            
         end
 
     end
