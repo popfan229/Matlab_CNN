@@ -14,6 +14,7 @@ clear
 clc
 %% ----- Load data
 subRealNum = [1 2 3 4 5 6 7 8 10 11 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 31 32 33];
+fileID     = 1;
 
 
 for subNum = subRealNum
@@ -23,9 +24,9 @@ for subNum = subRealNum
         pathNam = num2str(subNum);
         fileNam   = [num2str(preNum) '_R'  num2str(repNum) '.csv'];
         if subNum < 10
-            pathAll    = ['..\..\RawData\00' pathNam '\' fileNam]
+            pathAll    = ['..\RawData\00' pathNam '\' fileNam]
         else
-            pathAll    = ['..\..\RawData\0' pathNam '\' fileNam]
+            pathAll    = ['..\RawData\0' pathNam '\' fileNam]
         end
 
 %         filePath = '..\..\RawData\001\1_R1.CSV';  % home
@@ -64,14 +65,30 @@ for subNum = subRealNum
         % ----- End
 
         %% ---- save plus wave
+        waveLocation = [];
         for i=1:length(v_T_Ft)-2
-            plusWave(i,:) =  soundIn(v_T_Ft(i+1)-800:v_T_Ft(i+1)+1199)';   %第一个波不要
-            imageT = audioSpecImage( plusWave(i,:),2000,128, 112, 0); %怎么实现imagesc的数据缩放
-            maxV = max(max(imageT));minV = min(min(imageT));
-            imageGray = uint8(round(((imageT-minV)./(maxV-minV))*255));
+            Lstart = v_T_Ft(i+1)-800; Lend = v_T_Ft(i+1)+1199;
+            waveLocation = [waveLocation Lstart Lend];
+            plusWaveIn =  soundIn(Lstart : Lend)';   %第一个波不要
+            plusWaveOut =  soundOut(Lstart : Lend)';   %第一个波不要
+            imageTin = audioSpecImage( plusWaveIn,2000,128, 112, 0); %怎么实现imagesc的数据缩放
+            imageTout = audioSpecImage( plusWaveOut,2000,128, 112, 0); %怎么实现imagesc的数据缩放
+            
+            maxV = max(max(imageTin));minV = min(min(imageTin));    % for sound In
+            imageGray = uint8(round(((imageTin-minV)./(maxV-minV))*255));
             imageGray = flipud(imageGray);
-            imwrite(imageGray,['..\pluseImage\' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '.bmp']);
+            imwrite(imageGray,['..\pluseImage\' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_IN.bmp']);
+            
+            maxV = max(max(imageTout));minV = min(min(imageTout));   % for sound Out
+            imageGray = uint8(round(((imageTout-minV)./(maxV-minV))*255));
+            imageGray = flipud(imageGray);
+            imwrite(imageGray,['..\pluseImage\' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_OUT.bmp']);
         end
+        % ----- End
+        
+        %% ---- save plus wave location
+        xlswrite(['..\BPresult\' 'WaveLocation.xls'], waveLocation, ['B' num2str(fileID+1)]);  
+        fileID = fileID + 1
         % ----- End
         end
     end
