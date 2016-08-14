@@ -1,4 +1,4 @@
-function measdata = acousticPressure(echo, ecg, dataname)
+function measdata = acousticPressure_Man(echo, ecg, dataname)
 global data;
 global ContTime;
 global kickNumber1;
@@ -27,6 +27,11 @@ global Fs;
 global filePath;
 global subjectID;
 global pathname;
+global filename;
+
+%% ------ load pluse location
+pluseLocation = xlsread('../BPresult/WaveLocation.xls');
+
 
 %% Creat the main figure
 hMainFigure = figure('Name', 'Sound Generator', ...
@@ -197,14 +202,18 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         set(tickSecondSBP, 'String',num2str(0));
         
         close(2);
-        
-        figure(2)
-%         plot(t,cuffFit);
+%% ----
+
+        fileRow = str2num(filename(1:end-4))
+        pluseNum = 2*pluseLocation(fileRow,2);
+        pluseLocationY = 5*ones(1,pluseNum);
+        figure(2)   % plot figure 2
         hold on
-%         plot(t,cuffPressure,'r');
-        plot(t,soundUnderCuff+100,'k');
-        plot(t,soundOutCuff+100,'r');
+        plot(t,soundUnderCuff,'k');
+        plot(t,soundOutCuff,'r');
+        stem(pluseLocation(fileRow,3:(pluseNum+2))./Fs,pluseLocationY,'Marker','none');
         hold off   
+% -------
     end
 
     function play_first(hObject, eventdata)

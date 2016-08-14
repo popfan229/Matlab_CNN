@@ -24,9 +24,9 @@ for subNum = subRealNum
         pathNam = num2str(subNum);
         fileNam   = [num2str(preNum) '_R'  num2str(repNum) '.csv'];
         if subNum < 10
-            pathAll    = ['..\RawData\00' pathNam '\' fileNam]
+            pathAll    = ['..\..\RawData\00' pathNam '\' fileNam]
         else
-            pathAll    = ['..\RawData\0' pathNam '\' fileNam]
+            pathAll    = ['..\..\RawData\0' pathNam '\' fileNam]
         end
 
 %         filePath = '..\..\RawData\001\1_R1.CSV';  % home
@@ -66,6 +66,7 @@ for subNum = subRealNum
 
         %% ---- save plus wave
         waveLocation = [];
+        impath = '..\pluseImage\';
         for i=1:length(v_T_Ft)-2
             Lstart = v_T_Ft(i+1)-800; Lend = v_T_Ft(i+1)+1199;
             waveLocation = [waveLocation Lstart Lend];
@@ -77,17 +78,19 @@ for subNum = subRealNum
             maxV = max(max(imageTin));minV = min(min(imageTin));    % for sound In
             imageGray = uint8(round(((imageTin-minV)./(maxV-minV))*255));
             imageGray = flipud(imageGray);
-            imwrite(imageGray,['..\pluseImage\' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_IN.bmp']);
+%             sprintf('%s%d_%d_%d_R%d_%d_IN.bmp',impath,fileID,subNum,preNum,repNum)
+            imwrite(imageGray,['..\pluseImage\' num2str(fileID) '_' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_IN.bmp']);
             
             maxV = max(max(imageTout));minV = min(min(imageTout));   % for sound Out
             imageGray = uint8(round(((imageTout-minV)./(maxV-minV))*255));
             imageGray = flipud(imageGray);
-            imwrite(imageGray,['..\pluseImage\' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_OUT.bmp']);
+            imwrite(imageGray,['..\pluseImage\' num2str(fileID) '_' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_OUT.bmp']);
         end
         % ----- End
         
         %% ---- save plus wave location
-        xlswrite(['..\BPresult\' 'WaveLocation.xls'], waveLocation, ['B' num2str(fileID+1)]);  
+        waveLocation = [fileID length(v_T_Ft)-2 waveLocation];
+        xlswrite(['..\BPresult\' 'WaveLocation.xls'], waveLocation,1, ['B' num2str(fileID+1)]);  
         fileID = fileID + 1
         % ----- End
         end
