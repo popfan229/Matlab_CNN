@@ -213,7 +213,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         set(figureHandle,'Position',[400,400,1300,300], 'color','w')
         hold on
         plot(t,soundUnderCuff,'k');
-        plot(t,soundOutCuff,'r');
+%         plot(t,soundOutCuff,'r');
         stem(pluseLo./Fs,pluseLocationY,'Marker','none');
 
 
@@ -229,6 +229,9 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         x = pluseLo(L2)-pluseLo(L2-1)
         stem(aa./Fs, [3 3 3 3]);
         hold off  
+        pluseNum = [fileRow L1-1 L1 L2-1 L2];
+        xlswrite(['..\BPresult\pulseNum.xls'], pluseNum,1, ['A' num2str(fileRow+1)]); 
+        
 % -------
     end
 
