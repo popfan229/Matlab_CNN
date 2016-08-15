@@ -208,16 +208,27 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         fileRow = str2num(filename(1:end-4));
         pluseNum = 2*pluseLocation(fileRow,2);
         pluseLocationY = 5*ones(1,pluseNum);
+        pluseLo = pluseLocation(fileRow,3:(pluseNum+2));
         figureHandle = figure(2);   % plot figure 2
         set(figureHandle,'Position',[400,400,1300,300], 'color','w')
         hold on
         plot(t,soundUnderCuff,'k');
         plot(t,soundOutCuff,'r');
-        stem(pluseLocation(fileRow,3:(pluseNum+2))./Fs,pluseLocationY,'Marker','none');
-        hold off  
+        stem(pluseLo./Fs,pluseLocationY,'Marker','none');
+
 
         [x,y] = ginput(2);
-        x = x*2000
+        x = round(x*2000);
+        [V1,L1] = find(pluseLo>x(1));
+        [V2,L2] = find(pluseLo>x(2));
+        L1 = min(L1);
+        L2 = min(L2);
+
+        aa = [pluseLo(L1) pluseLo(L1-1) pluseLo(L2) pluseLo(L2-1)];
+        x = pluseLo(L1)-pluseLo(L1-1)
+        x = pluseLo(L2)-pluseLo(L2-1)
+        stem(aa./Fs, [3 3 3 3]);
+        hold off  
 % -------
     end
 
