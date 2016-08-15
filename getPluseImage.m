@@ -72,19 +72,19 @@ for subNum = subRealNum
             waveLocation = [waveLocation Lstart Lend];
             plusWaveIn =  soundIn(Lstart : Lend)';   %第一个波不要
             plusWaveOut =  soundOut(Lstart : Lend)';   %第一个波不要
-            imageTin = audioSpecImage( plusWaveIn,2000,128, 112, 0); %怎么实现imagesc的数据缩放
-            imageTout = audioSpecImage( plusWaveOut,2000,128, 112, 0); %怎么实现imagesc的数据缩放
-            
-            maxV = max(max(imageTin));minV = min(min(imageTin));    % for sound In
-            imageGray = uint8(round(((imageTin-minV)./(maxV-minV))*255));
-            imageGray = flipud(imageGray);
-%             sprintf('%s%d_%d_%d_R%d_%d_IN.bmp',impath,fileID,subNum,preNum,repNum)
-            imwrite(imageGray,['..\pluseImage\' num2str(fileID) '_' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_IN.bmp']);
-            
-            maxV = max(max(imageTout));minV = min(min(imageTout));   % for sound Out
-            imageGray = uint8(round(((imageTout-minV)./(maxV-minV))*255));
-            imageGray = flipud(imageGray);
-            imwrite(imageGray,['..\pluseImage\' num2str(fileID) '_' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_OUT.bmp']);
+%             imageTin = audioSpecImage( plusWaveIn,2000,128, 112, 0); %怎么实现imagesc的数据缩放
+%             imageTout = audioSpecImage( plusWaveOut,2000,128, 112, 0); %怎么实现imagesc的数据缩放
+%             
+%             maxV = max(max(imageTin));minV = min(min(imageTin));    % for sound In
+%             imageGray = uint8(round(((imageTin-minV)./(maxV-minV))*255));
+%             imageGray = flipud(imageGray);
+% %             sprintf('%s%d_%d_%d_R%d_%d_IN.bmp',impath,fileID,subNum,preNum,repNum)
+%             imwrite(imageGray,['..\pluseImage\' num2str(fileID) '_' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_IN.bmp']);
+%             
+%             maxV = max(max(imageTout));minV = min(min(imageTout));   % for sound Out
+%             imageGray = uint8(round(((imageTout-minV)./(maxV-minV))*255));
+%             imageGray = flipud(imageGray);
+%             imwrite(imageGray,['..\pluseImage\' num2str(fileID) '_' num2str(subNum) '_' num2str(preNum) '_R'  num2str(repNum) '_' num2str(i) '_OUT.bmp']);
         end
         % ----- End
         

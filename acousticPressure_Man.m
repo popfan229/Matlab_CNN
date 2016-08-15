@@ -29,6 +29,8 @@ global subjectID;
 global pathname;
 global filename;
 
+global figureHandle;
+
 %% ------ load pluse location
 pluseLocation = xlsread('../BPresult/WaveLocation.xls');
 
@@ -203,16 +205,19 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         
         close(2);
 %% ----
-
-        fileRow = str2num(filename(1:end-4))
+        fileRow = str2num(filename(1:end-4));
         pluseNum = 2*pluseLocation(fileRow,2);
         pluseLocationY = 5*ones(1,pluseNum);
-        figure(2)   % plot figure 2
+        figureHandle = figure(2);   % plot figure 2
+        set(figureHandle,'Position',[400,400,1300,300], 'color','w')
         hold on
         plot(t,soundUnderCuff,'k');
         plot(t,soundOutCuff,'r');
         stem(pluseLocation(fileRow,3:(pluseNum+2))./Fs,pluseLocationY,'Marker','none');
-        hold off   
+        hold off  
+
+        [x,y] = ginput(2);
+        x = x*2000
 % -------
     end
 
