@@ -37,8 +37,8 @@ for subNum = subRealNum
             pulseName = [num2str(iPulse) '_'];
             pathIN = ['..\pluseImage\' fileNum subName fileName pulseName 'IN.bmp'];
             pathOUT = ['..\pluseImage\' fileNum subName fileName pulseName 'OUT.bmp'];
-            movefile(pathIN, ['..\yes\' num2str(pluseID) '_in.bmp']);
-            movefile(pathOUT, ['..\yes\' num2str(pluseID) '_out.bmp']);
+            movefile(pathIN, ['..\yes2\' num2str(fileID) '_' pulseName 'in.bmp']);
+            movefile(pathOUT, ['..\yes2\' num2str(fileID) '_' pulseName 'out.bmp']);
             pluseID = pluseID+1;
         end
 
