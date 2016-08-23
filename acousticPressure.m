@@ -261,7 +261,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             hold on
 %             plot([info/Fs info/Fs],[150 40],'r');
             plot([info/Fs info/Fs],[105 95],'r'); 
-            xlswrite(['..\BPresult\' 'Result-'... 
+            xlswrite(['..\BPresult\' 'Result-'... % sound in cuff
                [pathname(end-3) pathname(end-2) pathname(end-1)] '.xls'], result, ['C' num2str(id+2) ':F' num2str(id+2)]);
         end
         
@@ -294,7 +294,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             hold on
             plot([info/Fs info/Fs],[105 95],'k');
                         
-            xlswrite(['..\BPresult\' 'Result-'... 
+            xlswrite(['..\BPresult\' 'Result-'... % sound out cuff
                [pathname(end-3) pathname(end-2) pathname(end-1)] '.xls'], result, ['G' num2str(id+2) ':J' num2str(id+2)]);            
         end
 

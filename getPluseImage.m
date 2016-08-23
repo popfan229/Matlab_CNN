@@ -1,5 +1,5 @@
 % //******************************************************************************
-% //  MSP-FET430P140 Demo - Timer_A, Toggle P3.4, CCR0 Cont. Mode ISR, DCO SMCLK
+% //  BP measurement using CNN
 % //
 % //  Description: plus wave analysis, segment frame and plot specgram
 % //
