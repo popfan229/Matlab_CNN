@@ -185,8 +185,12 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         % display the data in figure          
         t = [1/2000:1/2000:length(soundUnderCuff)/2000]; % Fs = 2000Hz
         time = length(soundUnderCuff)/2000;
+        set(hData1Axes,'NextPlot','replace');
+        set(hData2Axes,'NextPlot','replace');
         plot(hData1Axes,t,soundUnderCuff);  
-        plot(hData2Axes,t,soundOutCuff);  
+        plot(hData2Axes,t,soundOutCuff); 
+        set(hData1Axes,'NextPlot','add');
+        set(hData2Axes,'NextPlot','add');
         xlim(hData1Axes,[0 time]);
         xlim(hData2Axes,[0 time]);
         set(showFile, 'String',filename);
@@ -202,7 +206,9 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
          
         fs = 2000;
         handleAudio1 = audioplayer(soundUnderCuff, fs); 
-        play(handleAudio1);               
+        play(handleAudio1);  
+%         firstStart=datestr(tic);
+%         set(tickFirstStart, 'String',firstStart); 
     end
 
     function play_second(hObject, eventdata)
@@ -223,7 +229,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             firstKickPressure1 = cuffPressure(info); 
             set(tickFirstSBP, 'String',num2str(firstKickPressure1));
             firstLocation = info;         
-            set(hData1Axes,'NextPlot','add')
+%             set(hData1Axes,'NextPlot','add')
             plot(hData1Axes,[info/Fs info/Fs],[2.5 -2.5],'r');
         end
         
@@ -234,7 +240,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             secondLocation = info; 
             result = [firstKickPressure1,secondKickPressure1, firstLocation, secondLocation];
             
-            set(hData1Axes,'NextPlot','add')
+%             set(hData1Axes,'NextPlot','add')
             plot(hData1Axes,[info/Fs info/Fs],[2.5 -2.5],'r');
             xlswrite('..\BPresult\ResultIn.xls'... % sound in cuff
                 , result, ['C' num2str(id+2) ':F' num2str(id+2)]);
@@ -252,7 +258,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             firstLocation = info;
             set(tickSecondSBP, 'String',num2str(firstKickPressure2));
  
-            set(hData2Axes,'NextPlot','add')
+%             set(hData2Axes,'NextPlot','add')
             plot(hData2Axes,[info/Fs info/Fs],[2.5 -2.5],'r');
         end
         
@@ -264,7 +270,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             set(tickSecondDBP, 'String',num2str(secondKickPressure2));
             result = [firstKickPressure2, secondKickPressure2, firstLocation, secondLocation];
  
-            set(hData2Axes,'NextPlot','add')
+%             set(hData2Axes,'NextPlot','add')
             plot(hData2Axes,[info/Fs info/Fs],[2.5 -2.5],'r');
                         
             xlswrite('..\BPresult\ResultOut.xls'... % sound in cuff
