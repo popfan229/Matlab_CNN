@@ -242,7 +242,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
             
 %             set(hData1Axes,'NextPlot','add')
             plot(hData1Axes,[info/Fs info/Fs],[2.5 -2.5],'r');
-            xlswrite('..\BPresult\ResultIn.xls'... % sound in cuff
+            xlswrite('ResultIn.xls'... % sound in cuff
                 , result, ['C' num2str(id+2) ':F' num2str(id+2)]);
         end
         
@@ -273,7 +273,7 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
 %             set(hData2Axes,'NextPlot','add')
             plot(hData2Axes,[info/Fs info/Fs],[2.5 -2.5],'r');
                         
-            xlswrite('..\BPresult\ResultOut.xls'... % sound in cuff
+            xlswrite('ResultOut.xls'... % sound in cuff
                 , result, ['C' num2str(id+2) ':F' num2str(id+2)]);           
         end
 
