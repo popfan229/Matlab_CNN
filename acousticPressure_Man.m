@@ -32,7 +32,7 @@ global filename;
 global figureHandle;
 
 %% ------ load pluse location
-pluseLocation = xlsread('../BPresult/WaveLocation.xls');
+pluseLocation = xlsread('WaveLocation.xls');
 
 
 %% Creat the main figure
