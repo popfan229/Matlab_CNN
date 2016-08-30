@@ -43,5 +43,5 @@ for fileID = 1:270
 
 end
 
-    xlswrite(['deepLearnResult08301.xls'], dpin,'in');
-    xlswrite(['deepLearnResult08301.xls'], dpout,'out');
+    xlswrite(['deepLearnResult08302.xls'], dpin,'in');
+    xlswrite(['deepLearnResult08302.xls'], dpout,'out');
