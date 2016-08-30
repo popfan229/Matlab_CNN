@@ -13,17 +13,35 @@ clc
 close all
 filePath = '..\RawDataRename\';
 sr = 2000;   %sample rate
-waveloc = xlsread('WaveLocation.xls');
-pulseNum = xlsread('pulseNum.xls');
-sbpNum = pulseNum(:,10);
-dbpNum = pulseNum(:,11);
+% waveloc = xlsread('WaveLocation.xls');
+% pulseNum = xlsread('pulseNum.xls');
+
+sbpNumIn = pulseNum(:,12);
+dbpNumIn = pulseNum(:,13);    % 8-30 results IN
+
+sbpNumOut = pulseNum(:,15);
+dbpNumOut = pulseNum(:,16);    % 8-30 results OUT
 for fileID = 1:270 
+    if isnan(sbpNumIn(fileID))
+        continue;
+    end
+    fileID
     data = csvread([filePath num2str(fileID) '.csv']);
     [cuffPressure, bpIn, bpOut] = datasegment(data);
-    sbpLoc = waveloc(fileID,sbpNum(fileID)*2+2);
-    dbpLoc = waveloc(fileID,dbpNum(fileID)*2+2);
+    sbpLoc = waveloc(fileID,sbpNumIn(fileID)*2+2);
+    dbpLoc = waveloc(fileID,dbpNumIn(fileID)*2+2);
     sbp = cuffPressure(sbpLoc);
     dbp = cuffPressure(dbpLoc);
-    dp = [sbp dbp];
-    xlswrite(['deepLearnResult.xls'], dp,1, ['B' num2str(fileID+1)]);
+    dpin(fileID,:) = [sbp dbp];
+    
+    sbpLoc = waveloc(fileID,sbpNumOut(fileID)*2+2);
+    dbpLoc = waveloc(fileID,dbpNumOut(fileID)*2+2);
+    sbp = cuffPressure(sbpLoc);
+    dbp = cuffPressure(dbpLoc);
+    dpout(fileID,:) = [sbp dbp];
+    
+
 end
+
+    xlswrite(['deepLearnResult08301.xls'], dpin,'in');
+    xlswrite(['deepLearnResult08301.xls'], dpout,'out');
