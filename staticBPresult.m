@@ -9,7 +9,11 @@
 % //  Built with MATLAB
 % //******************************************************************************
 
-
+% data = xlsread('deepLearnResult.xls','analysis')
+sbpIn = data(1:90,10);
+dbpIn = data(1:90,11);
+sbpOut = data(1:90,12);
+dbpOut = data(1:90,13);
 % bpdiff = 0;
 number1 = 0;
 number2 = 0;
@@ -19,7 +23,7 @@ number5 = 0;
 number6 = 0;
 number7 = 0;
 number8 = 0;
-
+bpdiff = dbpOut;
 for i = 1:length(bpdiff(:,1))
     if (bpdiff(i,1)>=0 && bpdiff(i,1)<=2) 
         number1 = number1+1;
@@ -41,7 +45,7 @@ for i = 1:length(bpdiff(:,1))
 
 end
 allnumber = number1+number2+number3+number4+number5+number6+number7+number8
-alldata = [number4 number3 number2 number1 number5 number6 number7 number8];
+alldata = [number8 number7 number6 number5 number1 number2 number3 number4];
 alldata = alldata./90;
-x = [-7 -5 -3 -1 1 3 5 7]
-bar(x, alldata)
+bar(alldata)
+set(gca,'XTickLabel',{'<-6','-5','-3','-1','1','3','5','>6'})
