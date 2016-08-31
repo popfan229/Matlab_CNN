@@ -193,6 +193,8 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         set(hData2Axes,'NextPlot','add');
         xlim(hData1Axes,[0 time]);
         xlim(hData2Axes,[0 time]);
+        ylim(hData1Axes,[-5 5]);
+        ylim(hData2Axes,[-5 5]);
         set(showFile, 'String',filename);
         set(tickFirstDBP, 'String',num2str(0));
         set(tickFirstSBP, 'String',num2str(0));

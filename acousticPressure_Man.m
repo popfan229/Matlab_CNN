@@ -4,6 +4,8 @@ global ContTime;
 global kickNumber1;
 global kickNumber2;
 
+global hData1Axes;
+
 global soundUnderCuff;
 global soundOutCuff;
         
