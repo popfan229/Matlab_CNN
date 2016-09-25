@@ -11,10 +11,11 @@
 clc
 % clear all
 close all
-filePath = 'D:\DPTest\yupu\RawDataRename_v2\';
+filePath = '..\RawDataRename_v2\';
 sr = 2000;   %sample rate
-waveloc = xlsread('WaveLocation_v2.xls');
-pulseNum = xlsread('pulseNumV2.xls');
+TYPE = 'B';
+waveloc = xlsread('WaveLocation_v2.xls',TYPE);
+pulseNum = xlsread('pulseNumV2.xls',TYPE);
 
 sbpNumIn = pulseNum(:,2);
 dbpNumIn = pulseNum(:,3);    % 8-30 results IN
@@ -23,13 +24,13 @@ for fileID = 1:117
         continue;
     end
     fileID
-    data = csvread([filePath num2str(fileID) 'A.csv']);
+    data = csvread([filePath num2str(fileID) TYPE '.csv']);
     [cuffPressure, bpIn, bpOut] = datasegment(data);
-    sbpLoc = waveloc(fileID,sbpNumIn(fileID)*2+2);
-    dbpLoc = waveloc(fileID,dbpNumIn(fileID)*2+2);
+    sbpLoc = waveloc(fileID,sbpNumIn(fileID)*2+2)-1200;
+    dbpLoc = waveloc(fileID,dbpNumIn(fileID)*2+2)-1200;
     sbp = cuffPressure(sbpLoc);
     dbp = cuffPressure(dbpLoc);
     dpin(fileID,:) = [sbp dbp];
 end
 
-    xlswrite('deepLearnResult_v2.xls', dpin,'in');
+    xlswrite('deepLearnResult_v2_1.xls', dpin,TYPE);

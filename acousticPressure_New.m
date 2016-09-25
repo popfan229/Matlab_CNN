@@ -159,8 +159,8 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         id = str2num(filename(1:end-3));
 
         cuffPressure      = data(:,1);     % cuff pressure        
-        soundUnderCuff    = data(:,2);     % microphone
-        soundOutCuff      = data(:,3);     % brath
+        soundUnderCuff    = data(:,6);     % microphone
+        soundOutCuff      = data(:,6);     % brath
                 
         %----- process cuffPressure
         cuffPressure     = (cuffPressure-1)*100;

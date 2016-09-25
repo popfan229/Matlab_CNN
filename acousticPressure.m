@@ -141,6 +141,8 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
     'Callback', @store_second);
 
 % % 1.1) data menu components callback functions
+    figure2Handle = figure(2);
+
     function load(hObject, eventdata)
 
         % load file
@@ -160,8 +162,10 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         subjectID = str2num([pathname(end-3) pathname(end-2) pathname(end-1)]);
 
         cuffPressure      = data(:,1);     % cuff pressure        
-        soundUnderCuff    = data(:,2);     % microphone
-        soundOutCuff      = data(:,3);     % brath
+%         soundUnderCuff    = data(:,2);     % microphone
+%         soundOutCuff      = data(:,3);     % brath
+        soundUnderCuff    = data(:,6);     % microphone
+        soundOutCuff      = data(:,6);     % brath
                 
         %----- process cuffPressure
         cuffPressure     = (cuffPressure-1)*100;
@@ -196,12 +200,14 @@ hBeatNumEdit = uicontrol(hMainFigure, ...
         set(tickSecondDBP, 'String',num2str(0));
         set(tickSecondSBP, 'String',num2str(0));
         
-        close(2);
+%         close(2);
         
-        figure(2)
-%         plot(t,cuffFit);
+%         figure(2)
+        figure(figure2Handle);
+   
+        plot(t,cuffFit);
         hold on
-%         plot(t,cuffPressure,'r');
+        plot(t,cuffPressure,'r');
         plot(t,soundUnderCuff+100,'k');
         plot(t,soundOutCuff+100,'r');
         hold off   

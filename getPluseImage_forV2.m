@@ -16,9 +16,9 @@ clc
 TYPE = 'A';
 
 
-for fileID = 1:117
+for fileID = 118:417
             
-        fileNam   = [num2str(fileID) TYPE '.csv'];
+        fileNam   = [num2str(fileID) '.csv'];
         pathAll = ['..\RawDataRename_v2\' fileNam];
         data = csvread(pathAll);
 
@@ -39,23 +39,25 @@ for fileID = 1:117
         % ----- End of process cuffPressure
 
         %% ----- plot image & analysis
-        plusWave = zeros(100,2000);     % 保存每个单独plus波形
         soundOut = soundOutCuff(tRange);% 取出40mmHg-150mmHg范围内的soundOut
-        v_T_Ft = v_T_Ft;                % v_T_Ft保存每个袖带压力波起点位置
 
         for i=1:length(v_T_Ft)-1
-%             wavDif(fileID, i) =  v_T_Ft(i+1) - v_T_Ft(i); % for debug
+            wavDifDebug(fileID, i) =  v_T_Ft(i+1) - v_T_Ft(i); % for debug
             wavDif(i) =  v_T_Ft(i+1) - v_T_Ft(i);
         end
         location = find(wavDif>=3200|wavDif<1000);  % 根据压力波起点之间的差，找出错误的
         v_T_Ft(location+1) = [];                    % remove掉错误起始点
 %         subplot(2,1,1);plot(wavDif(fileID, :));
 %         subplot(2,1,2);plot(cuffPr);
+        plot(cuffPr);
+        [pks,locs] = findpeaks(cuffPr,'minpeakdistance',1000);
+        hold on
+        plot(locs,pks,'*');
+        hold off
         % ----- End
 
         %% ---- save plus wave
         waveLocation = [];
-        impath = '..\pluseImage_v3\';
         for i=1:length(v_T_Ft)-2
             Lstart = v_T_Ft(i+1)-800; Lend = v_T_Ft(i+1)+1199;
             waveLocation = [waveLocation Lstart Lend];
@@ -65,13 +67,13 @@ for fileID = 1:117
             maxV = max(max(imageTout));minV = min(min(imageTout));   % for sound Out
             imageGray = uint8(round(((imageTout-minV)./(maxV-minV))*255));
             imageGray = flipud(imageGray);
-            imwrite(imageGray,['..\pluseImage_p2\' TYPE '\' num2str(fileID) '_' num2str(i) '.bmp']);
+            imwrite(imageGray,['..\pluseImage_p2\' num2str(fileID) '_' num2str(i) '.bmp']);
         end
         % ----- End
         
         %% ---- save plus wave location
-%         waveLocation = [fileID length(v_T_Ft)-2 waveLocation];
-%         xlswrite(['WaveLocation_v2.xls'], waveLocation,1, ['B' num2str(fileID+1)]);  
+        waveLocation = [fileID length(v_T_Ft)-2 waveLocation];
+        xlswrite(['WaveLocation_v2_300.xls'], waveLocation,1, ['B' num2str(fileID+1)]);  
         % ----- End
         fileID
 end

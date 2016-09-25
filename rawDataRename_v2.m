@@ -13,28 +13,28 @@ close all
 clear
 clc
 %% ----- Load data
-% subRealNum = [1 2 3 4 5 6 7 8 10 11 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 31 32 33];
 fileID     = 1;
+% path = '..\..\2016-09 Data for Pan\';
+path = '..\RawData_v2\';
 
-
-for subNum = 1:100
-    for preNum = 1:3
+for subNum = 1:39
         for repNum = 1:3
             
         pathNam = num2str(subNum);
-        fileNam   = [num2str(preNum) '_R'  num2str(repNum) '.csv'];
+        fileNam   = ['A'  num2str(repNum) '.csv'];
         if subNum < 10
-            pathAll    = ['..\..\RawData\00' pathNam '\' fileNam]
+            pathAll    = [path '00' pathNam '\' '00' pathNam fileNam]
+        elseif (subNum < 100)&&(subNum >= 10)
+            pathAll    = [path '0' pathNam '\' '0' pathNam fileNam]
         else
-            pathAll    = ['..\..\RawData\0' pathNam '\' fileNam]
+            pathAll    = [path pathNam '\' pathNam fileNam]
         end
 
 %         filePath = '..\..\RawData\001\1_R1.CSV';  % home
         data = csvread(pathAll);
-        copyfile(pathAll, ['..\RawDataRename\' num2str(fileID) '.csv']);
+        copyfile(pathAll, ['..\RawDataRename_v2\' num2str(fileID) '.csv']);
   
         fileID = fileID + 1
         % ----- End
-        end
     end
 end
