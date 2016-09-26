@@ -13,10 +13,11 @@ close all
 clear
 clc
 %% ----- Load data
-TYPE = 'A';
+% TYPE = 'A';
+specialNumB = [7,8,9,10,11,12,65,66,121,122,123,125,155,156,181,182,183,337,338];
+specialNumS = [40,41,42,190,191,192,371,372,385,386,387,391,392,393];
 
-
-for fileID = 118:417
+for fileID = 1:417
             
         fileNam   = [num2str(fileID) '.csv'];
         pathAll = ['..\RawDataRename_v2\' fileNam];
@@ -41,39 +42,45 @@ for fileID = 118:417
         %% ----- plot image & analysis
         soundOut = soundOutCuff(tRange);% 取出40mmHg-150mmHg范围内的soundOut
 
-        for i=1:length(v_T_Ft)-1
-            wavDifDebug(fileID, i) =  v_T_Ft(i+1) - v_T_Ft(i); % for debug
-            wavDif(i) =  v_T_Ft(i+1) - v_T_Ft(i);
+
+        if(sum(fileID == specialNumB)>=1)
+            [pks,locs] = findpeaks(cuffPr,'minpeakdistance',1700,'minpeakheight',0.15);
+        elseif(sum(fileID == specialNumS)>=1)
+            [pks,locs] = findpeaks(cuffPr,'minpeakdistance',1000,'minpeakheight',0.15);
+        else
+            [pks,locs] = findpeaks(cuffPr,'minpeakdistance',1300,'minpeakheight',0.15);
         end
-        location = find(wavDif>=3200|wavDif<1000);  % 根据压力波起点之间的差，找出错误的
-        v_T_Ft(location+1) = [];                    % remove掉错误起始点
-%         subplot(2,1,1);plot(wavDif(fileID, :));
-%         subplot(2,1,2);plot(cuffPr);
-        plot(cuffPr);
-        [pks,locs] = findpeaks(cuffPr,'minpeakdistance',1000);
-        hold on
-        plot(locs,pks,'*');
-        hold off
+        
+        v_T_Ft = [];
+        v_T_Ft = locs;  %重新复值cuff波定点位置
+%         plot(cuffPr);
+%         hold on
+%         plot(locs,pks,'*');
+%         hold off
         % ----- End
 
         %% ---- save plus wave
         waveLocation = [];
         for i=1:length(v_T_Ft)-2
-            Lstart = v_T_Ft(i+1)-800; Lend = v_T_Ft(i+1)+1199;
+            Lstart = v_T_Ft(i+1)-1199; Lend = v_T_Ft(i+1)+800;
             waveLocation = [waveLocation Lstart Lend];
             plusWaveOut =  soundOut(Lstart : Lend)';   %第一个波不要
             imageTout = audioSpecImage( plusWaveOut,2000,128, 112, 0); %怎么实现imagesc的数据缩放
-                       
+            imageTout = flipud(imageTout);
+            imageTout(1,:) = [];
+            imageTout(:,1:2) = [];   %remove some data to make sure image size 116*64                   
             maxV = max(max(imageTout));minV = min(min(imageTout));   % for sound Out
             imageGray = uint8(round(((imageTout-minV)./(maxV-minV))*255));
-            imageGray = flipud(imageGray);
-            imwrite(imageGray,['..\pluseImage_p2\' num2str(fileID) '_' num2str(i) '.bmp']);
+%             imageGray = flipud(imageGray);
+%             imageGray(1,:) = [];
+%             imageGray(:,1:2) = [];
+            imwrite(imageGray,['..\pulseImage_v2\' num2str(fileID) '_' num2str(i) '.bmp']);
         end
-        % ----- End
+      %  ----- End
         
         %% ---- save plus wave location
         waveLocation = [fileID length(v_T_Ft)-2 waveLocation];
-        xlswrite(['WaveLocation_v2_300.xls'], waveLocation,1, ['B' num2str(fileID+1)]);  
+        xlswrite(['WaveLocation_v2_417.xls'], waveLocation,1, ['B' num2str(fileID+1)]);  
         % ----- End
         fileID
 end
