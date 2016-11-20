@@ -55,7 +55,7 @@
 % subplot(2,1,1);imshow(imageGrayin);
 % subplot(2,1,2);plot(pulseWaveIn);
 % 
-% %% ---- plot figure 6
+% %% ---- plot figure 4
 % fileID = 2;
 % pulseNum = waveloc(fileID,2);
 % pointLoc = waveloc(fileID,3:pulseNum*2+2);
@@ -67,7 +67,7 @@
 % xlim([0 45]);
 % ylim([-5 5]);
 % xlabel('time (s)');
-% ylabel('amptitude');
+% ylabel('Korotkoff sound');
 % set (gcf,'Position',[400,100,900,400])
 % hold on
 % for i = 1:pulseNum*2
@@ -82,26 +82,70 @@
 % hold off
 % subplot(2,1,1);plot(t,cuffInterp);
 % xlim([0 45]);
-% ylabel('cuff pressure(mmHg)');
+% ylabel('Cuff pressure(mmHg)');
 
 %% -------plot for figure 7 Results
 % results = xlsread('deepLearnResult_v3.xls','results');
-sbpnum = 1:2:20;
-dbpnum = 2:2:20;
-sbpL  = results(3,sbpnum);
-dbpL  = results(3,dbpnum);
-sbpSL = results(4,sbpnum);
-dbpSL = results(4,dbpnum);
+% sbpnum = 1:2:20;
+% dbpnum = 2:2:20;
+% sbpL  = results(3,sbpnum);
+% dbpL  = results(3,dbpnum);
+% sbpSL = results(4,sbpnum);
+% dbpSL = results(4,dbpnum);
+% 
+% sbpM  = results(7,sbpnum);
+% dbpM  = results(7,dbpnum);
+% sbpSM = results(8,sbpnum);
+% dbpSM = results(8,dbpnum);
+% 
+% sbpF  = results(11,sbpnum);
+% dbpF  = results(11,dbpnum);
+% sbpSF = results(12,sbpnum);
+% dbpSF = results(12,dbpnum);
+%% ---- plot figure 7
+results = xlsread('deepLearnResult_v3.xls','Analysis');
+sbpDiff = results(:,7);
+dbpDiff = results(:,8);
 
-sbpM  = results(7,sbpnum);
-dbpM  = results(7,dbpnum);
-sbpSM = results(8,sbpnum);
-dbpSM = results(8,dbpnum);
+m = sbpDiff;
+a(8) = numel(m(m<=0&m>=-2));
+a(7) = numel(m(m<-2&m>=-4));
+a(6) = numel(m(m<-4&m>=-6));
+a(5) = numel(m(m<-6&m>=-8));
+a(4) = numel(m(m<-8&m>=-10));
+a(3) = numel(m(m<-10&m>=-12));
+a(2) = numel(m(m<-12&m>=-14));
+a(1) = numel(m(m<-14&m>=-16));
 
-sbpF  = results(11,sbpnum);
-dbpF  = results(11,dbpnum);
-sbpSF = results(12,sbpnum);
-dbpSF = results(12,dbpnum);
-%% ----
+a(9) = numel(m(m>=0&m<=2));
+a(10) = numel(m(m>2&m<=4));
+a(11) = numel(m(m>4&m<=6));
+a(12) = numel(m(m>6&m<=8));
+a(13) = numel(m(m>8&m<=10));
+a(14) = numel(m(m>10&m<=12));
+a(15) = numel(m(m>12&m<=14));
+a(16) = numel(m(m>14&m<=16));
+
+m = dbpDiff;
+b(8) = numel(m(m<=0&m>=-2));
+b(7) = numel(m(m<-2&m>=-4));
+b(6) = numel(m(m<-4&m>=-6));
+b(5) = numel(m(m<-6&m>=-8));
+b(4) = numel(m(m<-8&m>=-10));
+b(3) = numel(m(m<-10&m>=-12));
+b(2) = numel(m(m<-12&m>=-14));
+b(1) = numel(m(m<-14&m>=-16));
+
+b(9) = numel(m(m>=0&m<=2));
+b(10) = numel(m(m>2&m<=4));
+b(11) = numel(m(m>4&m<=6));
+b(12) = numel(m(m>6&m<=8));
+b(13) = numel(m(m>8&m<=10));
+b(14) = numel(m(m>10&m<=12));
+b(15) = numel(m(m>12&m<=14));
+b(16) = numel(m(m>14&m<=16));
+
+a=a./417;
+b=b./417;
 
 
