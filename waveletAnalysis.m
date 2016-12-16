@@ -1,16 +1,38 @@
-% data = csvread('..\RawDataRename_v2\2.csv');
-% cuffPressure = data(:,1);     % cuff pressure
-% korSound     = data(:,6);     % microphone
+data = csvread('..\RawDataRename_v2\2.csv');
+cuffPressure = data(:,1);     % cuff pressure
+korSound     = data(:,6);     % microphone
 close all
-s1=92000;
-s2=s1+7000;
-data = korSound(s1:end);
+s1=92000+30000;
+s2=s1+10000;
+data = korSound(s1:s2);
 
+
+f1=50;  %生成正弦波的频率（可修改）
+f2=15;
+fs=2000; %采样频率
+N=10001;%采样点数
+n=0:N-1;
+t=n/fs; %时间序列
+y=0.06*sin(2*pi*f1*t);
+sound = data+y';
+
+aaa = func_denoise_dw1d(sound);
+subplot(211);plot(sound)
+subplot(212);plot(aaa);
+xlable('时间 (s)')
+
+
+h1 = openfig('untitled.fig','reuse'); % open figure  
+
+cuffPressure = (cuffPressure(75000:180000)-1)*100;
+plot(cuffPressure)
+% stem()
 
 %----陷波器
 f0=10;fs=2000;r=0.96;
 w0=2*pi*f0/fs;
 b=[1 -2*cos(w0) 1];
+
 a=[1 -2*r*cos(w0) r*r];
 y=dlsim(b,a,data);%陷波器滤波处理
 
@@ -18,8 +40,6 @@ plot(data);
 hold on
 plot(y,'r');
 %----
-
-
 
 x= data;
 lx=length(x);
