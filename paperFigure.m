@@ -6,24 +6,24 @@
 % //  Built with MATLAB
 % //******************************************************************************
 % 
-% data = csvread('..\RawDataRename\6.csv');
-% cuffPressure   = data(:,1);     % cuff pressure
-% soundInCuff    = data(:,2);     % microphone
-% soundOutCuff   = data(:,3);     % brath
-% sr = 2000;                      % sample rate
-% %% ----- Process cuffPressure
-% cuffPressure     = (cuffPressure-1)*100;
-% [v_T_Ft tRange] = SegmentOP(cuffPressure, 2000,cuffPressure); 
-% 
-% cuffFit = cuffPressure(tRange); % 找出40mmHg-150mmHg范围
-% cuffFitAva = cuffFit(v_T_Ft);   % 找出cuff基线
-% Xi = 0:1:length(cuffFit)-1;
-% cuffInterp = interp1(v_T_Ft,cuffFitAva,Xi,'linear'); % 插值成原来长度
-% cuffPr = cuffFit-cuffInterp';   % 减去基线的到单纯压力波波形
-% % ----- End of process cuffPressure
-% 
-% %% ----- plot figure 1
-% soundIn = soundInCuff(tRange);  % 取出40mmHg-150mmHg范围内的soundIn
+data = csvread('..\\RawDataRename_v2\328.csv');
+cuffPressure   = data(:,1);     % cuff pressure
+soundInCuff    = data(:,6);     % microphone
+soundOutCuff   = data(:,6);     % brath
+sr = 2000;                      % sample rate
+%% ----- Process cuffPressure
+cuffPressure     = (cuffPressure-1)*100;
+[v_T_Ft tRange] = SegmentOP(cuffPressure, 2000,cuffPressure); 
+
+cuffFit = cuffPressure(tRange); % 找出40mmHg-150mmHg范围
+cuffFitAva = cuffFit(v_T_Ft);   % 找出cuff基线
+Xi = 0:1:length(cuffFit)-1;
+cuffInterp = interp1(v_T_Ft,cuffFitAva,Xi,'linear'); % 插值成原来长度
+cuffPr = cuffFit-cuffInterp';   % 减去基线的到单纯压力波波形
+% ----- End of process cuffPressure
+
+%% ----- plot figure 1
+soundIn = soundInCuff(tRange);  % 取出40mmHg-150mmHg范围内的soundIn
 % soundOut = soundOutCuff(tRange);% 取出40mmHg-150mmHg范围内的soundOut
 % 
 % cuffWave = cuffPr(39000:80000);
@@ -70,20 +70,21 @@
 
 % 
 % %% ---- plot figure 4
-% fileID = 2;
-% pulseNum = waveloc(fileID,2);
-% pointLoc = waveloc(fileID,3:pulseNum*2+2);
-% figure();
-% 
-% t = [1/2000:1/2000:length(soundIn)/2000]; % Fs = 2000Hz
-% time = length(soundIn)/2000;
-% subplot(2,1,2);plot(t,soundIn);  
-% xlim([0 45]);
-% ylim([-5 5]);
-% xlabel('time (s)');
-% ylabel('Korotkoff sound');
-% set (gcf,'Position',[400,100,900,400])
-% hold on
+waveloc = xlsread('WaveLocation_v2_417.xls');
+fileID = 328;
+pulseNum = waveloc(fileID,2);
+pointLoc = waveloc(fileID,3:pulseNum*2+2);
+figure();
+
+t = [1/2000:1/2000:length(soundIn)/2000]; % Fs = 2000Hz
+time = length(soundIn)/2000;
+subplot(2,1,2);plot(t,soundIn);  
+xlim([0 45]);
+ylim([-5 5]);
+xlabel('time (s)');
+ylabel('Korotkoff sound');
+set (gcf,'Position',[400,100,900,400])
+hold on
 % for i = 1:pulseNum*2
 % %     plot([pointLoc(i) pointLoc(i)],[1 -1],'r');
 %     
@@ -92,11 +93,11 @@
 %     end
 % 
 % end
-% 
-% hold off
-% subplot(2,1,1);plot(t,cuffInterp);
-% xlim([0 45]);
-% ylabel('Cuff pressure(mmHg)');
+
+hold off
+subplot(2,1,1);plot(t,cuffPr);
+xlim([0 45]);
+ylabel('Cuff pressure(mmHg)');
 
 %% -------plot for figure 7 Results
 % results = xlsread('deepLearnResult_v3.xls','results');
@@ -207,13 +208,13 @@
 % b=(b'./402)*100;
 
 %% ------ 激活函数绘图
-x = -20:0.1:20;
-sigmiod = 1./(1+exp(-x));
-tanh = (exp(x) - exp(-x))./(exp(x) + exp(-x));
-relu = [zeros(1,200) 0:0.1:20];
-subplot(1,3,1);plot(x,sigmiod);xlabel('Sigmoid');grid on;
-subplot(1,3,2);plot(x,tanh);xlabel('Tanh');grid on;
-subplot(1,3,3);plot(x,relu);xlabel('Relu');grid on;
+% x = -20:0.1:20;
+% sigmiod = 1./(1+exp(-x));
+% tanh = (exp(x) - exp(-x))./(exp(x) + exp(-x));
+% relu = [zeros(1,200) 0:0.1:20];
+% subplot(1,3,1);plot(x,sigmiod);xlabel('Sigmoid');grid on;
+% subplot(1,3,2);plot(x,tanh);xlabel('Tanh');grid on;
+% subplot(1,3,3);plot(x,relu);xlabel('Relu');grid on;
 
 
 %%
